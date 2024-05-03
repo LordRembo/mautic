@@ -30,15 +30,11 @@ import { Alignment } from "@ckeditor/ckeditor5-alignment";
 import { RemoveFormat } from "@ckeditor/ckeditor5-remove-format";
 import { SourceEditing } from "@ckeditor/ckeditor5-source-editing";
 import { Mention } from "@ckeditor/ckeditor5-mention";
-import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
-import { HtmlEmbed } from '@ckeditor/ckeditor5-html-embed';
 import TokenPlugin from './TokenPlugin';
 
 export default class ClassicEditor extends ClassicEditorBase {
 
     public static override builtinPlugins = [
-        GeneralHtmlSupport,
-        HtmlEmbed,
         ImageInsert,
         IndentBlock,
         ImageInline,
