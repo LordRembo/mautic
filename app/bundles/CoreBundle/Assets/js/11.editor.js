@@ -300,7 +300,7 @@ Mautic.ConvertFieldToCkeditor  = function(textarea, ckEditorToolbarOptions) {
 }
 
 Mautic.GetCkEditorConfigOptions  = function(ckEditorToolbarOptions, tokenCallback) {
-    const defaultOptions = ['undo', 'redo', '|', 'bold', 'italic', 'underline', 'heading', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor', 'alignment', 'numberedList', 'bulletedList', 'blockQuote', 'removeFormat', 'link', 'ckfinder', 'mediaEmbed', 'insertTable'];
+    const defaultOptions = ['undo', 'redo', '|', 'bold', 'italic', 'underline', 'heading', 'fontfamily', 'fontsize', 'fontColor', 'fontBackgroundColor', 'alignment', 'numberedList', 'bulletedList', 'blockQuote', 'removeFormat', 'link', 'ckfinder', 'mediaEmbed', 'insertTable', '|', 'sourceEditing'];
     const ckEditorToolbar = typeof ckEditorToolbarOptions != "undefined" && ckEditorToolbarOptions.length > 0 ? ckEditorToolbarOptions : defaultOptions;
 
     const ckEditorOption = {
@@ -330,36 +330,16 @@ Mautic.GetCkEditorConfigOptions  = function(ckEditorToolbarOptions, tokenCallbac
                 }
             }
         },
-        htmlEmbed: {
-            showPreviews: true,
-            sanitizeHtml: ( inputHtml ) => {
-                // Strip unsafe elements and attributes, for example:
-                // the `<script>` elements and `on*` attributes.
-                const outputHtml = sanitize( inputHtml );
-
-                return {
-                    html: outputHtml,
-                    // true or false depending on whether the sanitizer stripped anything.
-                    hasChanged: true
-                };
-            }
+        htmlSupport: {
+            allow: [
+                {
+                    name: /.*/,
+                    styles: true,
+                    classes: true,
+                    attributes: true,
+                }
+            ],
         },
-        // htmlSupport: {
-        //     allow: [
-        //         {
-        //             name: 'span',
-        //             styles: true,
-        //             classes: true,
-        //             attributes: true,
-        //         },
-        //         {
-        //             name: 'div',
-        //             styles: true,
-        //             classes: true,
-        //             attributes: true,
-        //         }
-        //     ],
-        // },
     };
 
 
