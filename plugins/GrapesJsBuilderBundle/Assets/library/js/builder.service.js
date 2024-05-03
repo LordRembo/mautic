@@ -152,7 +152,7 @@ export default class BuilderService {
   }
 
   static getCkeConf(tokenCallback) {
-    const ckEditorToolbarOptions = ['undo', 'redo', '|', 'bold','italic', 'underline','strikethrough', '|', 'fontSize','fontFamily','fontColor','fontBackgroundColor', '|' ,'alignment','outdent', 'indent', '|', 'blockQuote', 'insertTable', '|', 'bulletedList','numberedList', '|', 'link', '|', 'TokenPlugin', '|', 'sourceEditing'];
+    const ckEditorToolbarOptions = ['undo', 'redo', '|', 'bold','italic', 'underline','strikethrough', '|', 'fontSize','fontFamily','fontColor','fontBackgroundColor', '|' ,'alignment','outdent', 'indent', '|', 'blockQuote', 'insertTable', '|', 'bulletedList','numberedList', '|', 'link', '|', 'TokenPlugin'];
     return {
       ckeditor_module: `${mauticBaseUrl}assets/ckeditor/build/ckeditor.js`,
       options:  Mautic.GetCkEditorConfigOptions(ckEditorToolbarOptions, tokenCallback)
