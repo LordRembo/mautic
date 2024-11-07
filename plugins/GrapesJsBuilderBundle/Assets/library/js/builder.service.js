@@ -310,9 +310,7 @@ export default class BuilderService {
     const parsedContent = MjmlService.getEditorMjmlContent(this.editor);
     this.editor.setComponents(parsedContent);
 
-    this.editor.BlockManager.get('mj-button').set({
-      content: '<mj-button href="https://">Button</mj-button>',
-    });
+    this.overrideButton(this.editor);
 
     this.removeSelectedElementsEmailMjml();
 
@@ -552,6 +550,82 @@ export default class BuilderService {
     if (rawblock !== null) {
       this.editor.BlockManager.remove(rawblock);
     }
+  }
+
+  overrideButton(editor) {
+
+    editor.BlockManager.get('mj-button').set({
+      content: '<mj-button href="https://">Button</mj-button>',
+    });
+
+    const domc = editor.DomComponents;
+
+    domc.addType('mj-button', {
+      model: {
+        defaults: {
+          // 'style-default': {
+          //   'background-color': 'red',
+          // },
+          // https://grapesjs.com/docs/modules/Traits.html#add-traits-to-components
+          traits: [
+            'href',
+            'target',
+          ],
+        }
+      },
+      view: {
+        onActive() {
+          editor.runCommand('open-content-button-modal');
+        }
+      }
+    });
+
+    const contentButtonModal = `
+      <div id="content-button-modal" class="content-button-modal">
+          <div class="content-button-modal-content">
+            <input type="text" value="Button" />
+            <button id="submit-content-button-modal" class="gjs-btn-prim">Submit</button>
+            <button id="close-content-button-modal" class="gjs-btn-prim">Close</button>
+          </div>
+      </div>
+    `;
+
+    editor.Commands.add('open-content-button-modal', {
+      run(editor) {
+        editor.Modal.open({
+            title: 'Edit button text',
+            content: contentButtonModal,
+            attributes: {
+              class: 'content-button'
+            }
+        });
+
+        const container = editor.Modal.getContentEl().querySelector('#content-button-modal');
+
+        // Add click event listener to submit button
+        const submitButton = container.querySelector('#submit-content-button-modal');
+        submitButton.addEventListener('click', () => {
+            // Update the component's content
+            const selectedComponent = editor.getSelected();
+            if (selectedComponent) {
+              console.log(selectedComponent);
+              // TO DO: fetch the input content to wrap in the button block code
+              selectedComponent.set('content', `button block code goes here`);
+            }
+            
+            // Close the modal
+            editor.Modal.close();
+        });
+
+        // Add click event listener to close button
+        const closeButton = container.querySelector('#close-content-button-modal');
+        closeButton.addEventListener('click', () => {
+            // Close the modal
+            editor.Modal.close();
+        });
+      }
+
+    });
   }
 
   /**
